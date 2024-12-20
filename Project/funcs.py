@@ -1,4 +1,5 @@
 import re, math
+from typing import List, Any
 
 from prettytable import PrettyTable
 
@@ -77,6 +78,30 @@ def check_linear(arr):
     return True
 
 
+def check_linear2(arr):
+    num_inputs = len(arr)
+
+    if num_inputs == 1:
+        return True
+
+    sub_coef = []
+
+    for i in range(num_inputs):
+        sub_res = arr[i]
+
+        for j in range(i):
+            if i & j == j:
+                sub_res = sub_res ^ sub_coef[j]
+
+        sub_coef.append(sub_res)
+
+        if i.bit_count() > 1 and sub_res == 1:
+            return False
+
+    return True
+
+
+
 def get_properties(arr):
 
     if not func_is_correct(arr):
@@ -89,7 +114,7 @@ def get_properties(arr):
            check_onesave(sub),
            check_selfdouble(sub),
            check_monotone(sub),
-           check_linear(sub)]
+           check_linear2(sub)]
 
     return res
 
